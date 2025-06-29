@@ -501,6 +501,27 @@ app.get('/api/get-mails', async (req, res) => {
   }
 });
 
+// Restore session from JWT if session is missing but token exists
+app.use((req, res, next) => {
+  if (!req.session.user && req.cookies.token) {
+    try {
+      const decoded = jwt.verify(req.cookies.token, JWT_SECRET);
+      req.session.user = {
+        id: decoded.id,
+        fullname: decoded.fullname,
+        email: decoded.email,
+        role: decoded.role,
+        isAuthenticated: true
+      };
+      req.session.IsAuthenticated = true;
+    } catch (err) {
+      // Invalid token, clear cookie
+      res.clearCookie('token');
+    }
+  }
+  next();
+});
+
 // ✅ Start server
 app.listen(port, () => {
   console.log(`🚀 Server started at http://localhost:${port}`);
