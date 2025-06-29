@@ -92,8 +92,12 @@
                     <div class="text-gray-500 text-xs mt-1">Role: <span class="font-medium"><%= user && user.role ? user.role : 'N/A' %></span></div>
                 </div>
             </div>
+            <!-- End User Card Main -->
+
+            <!-- Responsive Table Wrapper -->
+            <div class="overflow-x-auto">
                 <% if (issues && issues.length > 0) { %>
-                <table class="min-w-full divide-y divide-gray-200">
+                <table class="min-w-full divide-y divide-gray-200 text-sm">
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">S.No</th>
@@ -123,6 +127,7 @@
                 <div class="text-center text-gray-500 py-8">No reports found.</div>
                 <% } %>
             </div>
+            <!-- End Responsive Table Wrapper -->
         </div>
     </main>
     <footer class="bg-gray-100 py-6 mt-8">
