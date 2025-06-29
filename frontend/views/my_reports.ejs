@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Reports - UndoBharat</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqz2hem3m/image/upload/v1750665330/logo_ep4az4.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        body.dark-mode {
+            background-color: #18181b !important;
+            color: #f3f4f6 !important;
+        }
+        body.dark-mode .bg-white { background-color: #23232a !important; }
+        body.dark-mode .bg-gray-50, body.dark-mode .bg-gray-100 { background-color: #23232a !important; }
+        body.dark-mode .text-gray-800,
+        body.dark-mode .text-gray-700,
+        body.dark-mode .text-gray-600,
+        body.dark-mode .text-black {
+            color: #fff !important;
+        }
+        body.dark-mode .text-blue-600 { color: #60a5fa !important; }
+        body.dark-mode .text-xl, body.dark-mode .font-semibold {
+            color: #fff !important;
+        }
+        body.dark-mode .text-green-800 { color: #bbf7d0 !important; }
+        body.dark-mode .text-red-800 { color: #fecaca !important; }
+        body.dark-mode .text-gray-500 { color: #d1d5db !important; }
+        body.dark-mode .shadow { box-shadow: 0 2px 8px rgba(0,0,0,0.7) !important; }
+        body.dark-mode .border { border-color: #333 !important; }
+        body.dark-mode .bg-green-100 {
+            background-color: #22c55e !important; /* Tailwind green-500 */
+            color: #fff !important;
+        }
+        body.dark-mode .bg-red-100 {
+            background-color: #ef4444 !important; /* Tailwind red-500 */
+            color: #fff !important;
+        }
+        body.dark-mode .bg-white,
+        body.dark-mode .bg-gray-50,
+        body.dark-mode .bg-gray-100 {
+            background-color: #23232a !important;
+        }
+        body.dark-mode .bg-blue-50 {
+            background-color: #1e293b !important; /* Tailwind slate-800 */
+        }
+        body.dark-mode table,
+        body.dark-mode thead,
+        body.dark-mode tbody,
+        body.dark-mode tr,
+        body.dark-mode th,
+        body.dark-mode td {
+            border-color: #444 !important;
+        }
+        body.dark-mode .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
+            border-color: #444 !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <img src="https://shorturl.at/KxcWl" alt="UndoBharat Logo" class="h-10 w-10">   
+                <h1 class="text-xl font-bold text-gray-800">UndoBharat</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="/report-an-issue-now" class="text-gray-600 hover:text-blue-600 transition">Home</a>
+                <button id="toggleDarkMode" class="text-gray-600 hover:text-blue-600 transition px-3 py-1 rounded border border-gray-300">Dark Mode</button>
+            </div>
+        </div>
+    </header>
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-blue-50 px-6 py-4 border-b border-blue-100">
+                <h3 class="text-xl font-semibold text-gray-800">My Reported Issues</h3>
+            </div>
+
+            <!-- User Card Main -->
+            <div class="p-6 flex items-center space-x-6 border-b border-gray-100 bg-gray-50">
+                <div class="flex-shrink-0">
+                    <span class="inline-flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 text-blue-600 text-2xl font-bold">
+                        <%= username ? username[0].toUpperCase() : '?' %>
+                    </span>
+                </div>
+                <div>
+                    <div class="text-lg font-semibold text-gray-800"><%= username ? username : 'User' %></div>
+                    <div class="text-gray-600 text-sm"><%= user && user.email ? user.email : 'Email not available' %></div>
+                    <div class="text-gray-500 text-xs mt-1">Role: <span class="font-medium"><%= user && user.role ? user.role : 'N/A' %></span></div>
+                </div>
+            </div>
+                <% if (issues && issues.length > 0) { %>
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">S.No</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <% issues.forEach((issue, index) => { %>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap"><%= index + 1 %></td>
+                            <td class="px-6 py-4 whitespace-nowrap"><%= issue.title %></td>
+                            <td class="px-6 py-4 whitespace-nowrap"><%= issue.problemType %></td>
+                            <td class="px-6 py-4 whitespace-nowrap"><%= new Date(issue.date).toLocaleDateString('en-GB').replace(/\//g, '-') %></td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 py-1 rounded-full text-xs <%= (issue.status === 'Resolved' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800') %>">
+                                    <%= issue.status || 'Not Resolved' %>
+                                </span>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+                <% } else { %>
+                <div class="text-center text-gray-500 py-8">No reports found.</div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+    <footer class="bg-gray-100 py-6 mt-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-600">© 2025 UndoBharat. All Rights Reserved.</p>
+            <p class="text-gray-600 mt-1">Contact us: <a href="mailto:undobharat@gmail.com" class="text-blue-600 hover:underline">undobharat@gmail.com</a></p>
+        </div>
+    </footer>
+    <script>
+        // Dark mode toggle logic
+        function setDarkModeButtonText() {
+            var darkModeBtn = document.getElementById('toggleDarkMode');
+            if (!darkModeBtn) return;
+            if(document.body.classList.contains('dark-mode')) {
+                darkModeBtn.textContent = 'Light Mode';
+            } else {
+                darkModeBtn.textContent = 'Dark Mode';
+            }
+        }
+        function toggleDarkMode(e) {
+            if (e) e.preventDefault();
+            document.body.classList.toggle('dark-mode');
+            if(document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+            setDarkModeButtonText();
+        }
+        // On page load, set dark mode if previously selected
+        if(localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+        // Attach to button and set initial text
+        var darkModeBtn = document.getElementById('toggleDarkMode');
+        setDarkModeButtonText();
+        if (darkModeBtn) darkModeBtn.addEventListener('click', toggleDarkMode);
+    </script>
+</body>
+</html>

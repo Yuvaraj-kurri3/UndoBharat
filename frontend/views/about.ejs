@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - UndoBharat</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqz2hem3m/image/upload/v1750665330/logo_ep4az4.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #FF9933 0%, #FFFFFF 50%, #138808 100%);
+        }
+        .problem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .founder-quote {
+            border-left: 4px solid #FF9933;
+        }
+        .tricolor-border {
+            border-bottom: 4px solid;
+            border-image: linear-gradient(to right, #FF9933 33%, #FFFFFF 33% 66%, #138808 66% 100%) 1;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+                    <img src="https://res.cloudinary.com/dqz2hem3m/image/upload/v1750665330/logo_ep4az4.png" alt="logo">
+                </div>
+                <span class="text-xl font-bold text-gray-800">UndoBharat</span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="/" class="text-gray-600 hover:text-orange-500">Home</a>
+                <a href="/about" class="text-gray-600 hover:text-orange-500">About</a>
+                <a href="#Problems-We-Tackle" class="text-gray-600 hover:text-orange-500">Problems</a>
+                <a href="/" class="text-gray-600 hover:text-orange-500">Contact</a>
+            </div>
+            <!-- Mobile Hamburger -->
+            <button id="mobileMenuBtn" class="md:hidden text-gray-600 focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <!-- Mobile Navigation -->
+        <div id="mobileMenu" class="md:hidden hidden bg-white shadow-lg absolute w-full left-0 z-50">
+            <div class="flex flex-col space-y-4 px-6 py-4">
+                <a href="/" class="text-gray-700 hover:text-orange-500 py-2">Home</a>
+                <a href="/about" class="text-gray-700 hover:text-orange-500 py-2">About</a>
+                <a href="#Problems-We-Tackle" class="text-gray-700 hover:text-orange-500 py-2">Problems</a>
+                <a href="/" class="text-gray-700 hover:text-orange-500 py-2">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-gradient py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">About UndoBharat</h1>
+            <p class="text-xl text-gray-700 max-w-3xl mx-auto">Empowering citizens to build a better India by reporting and resolving local problems</p>
+        </div>
+    </header>
+
+    <!-- Founder's Note -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2 tricolor-border pb-2 inline-block">Founder's Note</h2>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-1/3 flex justify-center">
+                    <div class="relative">
+                        <img src="https://res.cloudinary.com/dqz2hem3m/image/upload/v1750665381/yuva2_iyhcer.png" 
+                             alt="Founder Yuvaraj" 
+                             class="w-64 h-64 rounded-full object-cover border-4 border-white shadow-lg">
+                        <div class="absolute -bottom-3 -right-3 bg-orange-500 text-white rounded-full p-3 shadow-md">
+                            <i class="fas fa-lightbulb text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-2/3">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Yuvaraj Kurri, Founder of UndoBharat</h3>
+                    <p class="text-gray-600 mb-6">As a diploma graduate from a small village in India, I've witnessed firsthand the challenges our rural communities face every day. The poor roads that make travel difficult, the frequent electricity failures that disrupt lives, and the drainage problems that create health hazards - these are not just issues, they're obstacles to our nation's progress.</p>
+                    
+                    <div class="founder-quote pl-6 mb-6">
+                        <p class="text-gray-700 italic text-lg">"I've seen the roads, drainage, and electricity issues — I wanted to be the voice for those who can't raise theirs."</p>
+                    </div>
+                    
+                    <p class="text-gray-600">UndoBharat was born from this frustration and the burning desire to make a difference. I believe that every citizen, regardless of their background, should have the power to demand better infrastructure and services for their community.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section class="py-12 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2 tricolor-border pb-2 inline-block">Our Mission & Vision</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-orange-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-bullseye text-orange-500 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800">Our Mission</h3>
+                    </div>
+                    <p class="text-gray-600">To connect citizens and communities across India, providing a platform to report local problems and push for concrete action. We aim to bridge the gap between people's needs and government responsiveness, creating a system where no concern goes unheard and no problem remains unaddressed.</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-eye text-green-500 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800">Our Vision</h3>
+                    </div>
+                    <p class="text-gray-600">A developed India where every village and city has clean roads, stable electricity, proper drainage, and basic infrastructure that meets global standards. We envision a country where civic participation is the norm, and where every citizen takes pride in contributing to the nation's progress.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why UndoBharat -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2 tricolor-border pb-2 inline-block">Why UndoBharat?</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <div class="text-center">
+                    <div class="bg-blue-100 p-4 rounded-full inline-block mb-4">
+                        <i class="fas fa-mobile-alt text-blue-500 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Easy Reporting</h3>
+                    <p class="text-gray-600">Simply upload images, location, and details of the problem you're facing in your community.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-orange-100 p-4 rounded-full inline-block mb-4">
+                        <i class="fas fa-users text-orange-500 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Community Power</h3>
+                    <p class="text-gray-600">When multiple people report the same issue, it gains priority and visibility for authorities.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-green-100 p-4 rounded-full inline-block mb-4">
+                        <i class="fas fa-chart-line text-green-500 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Track Progress</h3>
+                    <p class="text-gray-600">Follow the status of reported issues and see real change happening in your area.</p>
+                </div>
+            </div>
+            
+            <div class="bg-indigo-50 p-8 rounded-lg">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-4">Youth for Nation Building</h3>
+                <p class="text-gray-600 mb-6">India's youth have the energy, ideas, and digital skills to drive change. UndoBharat provides the platform to channel this potential into concrete civic action. By reporting problems and following up on solutions, young Indians can play a direct role in shaping the future of their communities and the nation.</p>
+                <p class="text-gray-600">We believe that true patriotism isn't just about waving flags, but about rolling up our sleeves to fix what's broken in our neighborhoods. Join us in this movement to build the India we deserve.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problems We Tackle -->
+    <section class="py-12 bg-gray-100" id="Problems-We-Tackle">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2 tricolor-border pb-2 inline-block">The Problems We Tackle</h2>
+            </div>
+            
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="problem-card bg-white p-6 rounded-lg shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-red-100 p-2 rounded-full mr-3">
+                            <i class="fas fa-road text-red-500"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800">Roads with Potholes</h3>
+                    </div>
+                    <p class="text-gray-600">Dangerous road conditions that cause accidents and damage vehicles.</p>
+                </div>
+                
+                <div class="problem-card bg-white p-6 rounded-lg shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-yellow-100 p-2 rounded-full mr-3">
+                            <i class="fas fa-lightbulb text-yellow-500"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800">No Street Lights</h3>
+                    </div>
+                    <p class="text-gray-600">Dark streets that compromise safety, especially for women and children.</p>
+                </div>
+                
+                <div class="problem-card bg-white p-6 rounded-lg shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-blue-100 p-2 rounded-full mr-3">
+                            <i class="fas fa-tint text-blue-500"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800">Poor Water Supply</h3>
+                    </div>
+                    <p class="text-gray-600">Irregular or contaminated water supply affecting health and daily life.</p>
+                </div>
+                
+                <div class="problem-card bg-white p-6 rounded-lg shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-purple-100 p-2 rounded-full mr-3">
+                            <i class="fas fa-water text-purple-500"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800">Overflowing Drains</h3>
+                    </div>
+                    <p class="text-gray-600">Blocked drainage systems causing waterlogging and health hazards.</p>
+                </div>
+                
+                <div class="problem-card bg-white p-6 rounded-lg shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-green-100 p-2 rounded-full mr-3">
+                            <i class="fas fa-school text-green-500"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800">Broken Public Facilities</h3>
+                    </div>
+                    <p class="text-gray-600">Dilapidated schools, hospitals, and government buildings needing repair.</p>
+                </div>
+                
+                <div class="problem-card bg-white p-6 rounded-lg shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-orange-100 p-2 rounded-full mr-3">
+                            <i class="fas fa-trash text-orange-500"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800">Garbage Management</h3>
+                    </div>
+                    <p class="text-gray-600">Improper waste disposal leading to unhygienic living conditions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-16 bg-gradient-to-r from-orange-500 to-green-600">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-white mb-6">Ready to Make a Difference?</h2>
+            <p class="text-xl text-white mb-8 max-w-2xl mx-auto">Join thousands of citizens who are taking action to improve their communities.</p>
+            <button class="bg-white text-orange-500 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition-colors" onclick="window.location.href='/report-an-issue-now'">
+                <i class="fas fa-flag mr-2"></i> Report a Problem
+            </button>
+        </div>
+    </section>
+
+    <div id="maintenance-popup" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full text-center">
+    <h2 class="text-2xl font-bold mb-2 text-red-600">🚧 Site Under Maintenance</h2>
+    <p class="text-gray-700 mb-4">We're currently making improvements to UndoBharath. Some features may not work as expected.</p>
+    <p class="text-sm text-gray-500 mb-4">Our team is working hard to complete everything as soon as possible. Thank you for your patience!</p>
+    <p>-Team UndoBharat</p>
+    <button id="close-popup" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Okay, Got it</button>
+  </div>
+</div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                        <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+                        <img src="https://res.cloudinary.com/dqz2hem3m/image/upload/v1750665330/logo_ep4az4.png" alt="logo">
+                    </div>
+                    <span class="text-xl font-bold">UndoBharat</span>
+                </div>
+                    <p class="text-gray-400 mt-2">Empowering citizens to build a better India</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <!-- <a href="#" class="text-gray-400 hover:text-white">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <i class="fab fa-twitter"></i>
+                    </a> -->
+                    <a href="https://www.instagram.com/undobharatofficial/" class="text-gray-400 hover:text-white">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/yuvarajkurri/" class="text-gray-400 hover:text-white">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 UndoBharat. All rights reserved.</p>
+                <p class="text-gray-600 mt-1">Contact us: <a href="mailto:undobharat@gmail.com" class="text-blue-600 hover:underline">undobharat@gmail.com</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple JavaScript for mobile menu toggle (could be expanded)
+       
+
+        document.getElementById("close-popup").addEventListener("click", function () {
+            document.getElementById("maintenance-popup").style.display = "none";
+        });
+
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+
+                // Only handle in-page anchors (not just '#', not routes, not external)
+                if (href && href.startsWith('#') && href.length > 1) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    // Optionally close mobile menu if present
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                    return;
+                }
+
+                // If it's just "#", prevent default (does nothing)
+                if (href === '#') {
+                    e.preventDefault();
+                    return;
+                }
+                // For all other links (routes, external), do nothing special
+            });
+        });
+
+    // Mobile menu toggle
+    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+        const menu = document.getElementById('mobileMenu');
+        menu.classList.toggle('hidden');
+    });
+    // Close mobile menu on link click
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+        link.addEventListener('click', function() {
+            document.getElementById('mobileMenu').classList.add('hidden');
+        });
+    });
+    </script>
+</body>
+</html>

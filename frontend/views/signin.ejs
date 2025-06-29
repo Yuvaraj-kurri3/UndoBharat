@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Sign Up Form</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqz2hem3m/image/upload/v1750665330/logo_ep4az4.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .form-container {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .input-field {
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            border-color: var(--primary);
+        }
+
+        .btn-signup {
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-signup:active {
+            transform: translateY(0);
+        }
+
+        .link-signin {
+            transition: all 0.3s ease;
+        }
+
+        .link-signin:hover {
+            color: var(--primary);
+        }
+
+      
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .role-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1em;
+        }
+         .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center p-4">
+    <div class="form-container w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-indigo-500 to-indigo-400 p-6 text-center">
+            <h1 class="text-2xl font-bold text-white">Create Your Account</h1>
+            <p class="text-indigo-100 mt-1">Join our community today</p>
+        </div>
+        
+                <form id="signupForm" class="p-6 space-y-6" action="/api/signin" method="post">
+            <div class="space-y-4">
+                <!-- Full Name -->
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name*</label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        required 
+                        class="input-field w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                        placeholder="John Doe" name="fullname">
+                </div>
+                <!-- Email + OTP -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address*</label>
+                    <div class="flex space-x-2">
+                        <input 
+                            type="email" 
+                            id="email" 
+                            required 
+                            class="input-field w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                            placeholder="your@email.com" name="email">
+                        <button type="button" id="sendOtpBtn" class="px-3 py-2 bg-indigo-600 text-white rounded">Send OTP</button>
+                        
+                    </div>
+                    <p class="fs-0.5">The entered email must exist. You will receive an OTP.</p>
+                </div>
+                <!-- OTP Section -->
+                <div id="otpSection" style="display:none;">
+                    <label for="otp" class="block text-sm font-medium text-gray-700 mb-1">Enter OTP*</label>
+                    <input type="text" id="otp" class="input-field w-full px-4 py-3 rounded-lg border border-gray-300" placeholder="Enter OTP">
+                    <button type="button" id="verifyOtpBtn" class="mt-2 px-3 py-2 bg-green-600 text-white rounded">Verify OTP</button>
+                </div>
+                <!-- Rest of Form -->
+                <div id="restOfForm" style="display:none;">
+                    <!-- Password -->
+                    <div class="relative">
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Create Password*</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            required 
+                            class="input-field w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                            placeholder="••••••••" name="password">
+                        <button type="button" class="absolute right-3 top-9 text-gray-400 hover:text-gray-600" onclick="togglePassword()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                    </div>
+                    <!-- Role -->
+                    <div>
+                        <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Role*</label>
+                        <select 
+                            id="role" 
+                            class="role-select input-field w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-200 text-gray-700" name="role" onchange="toggleAdminCodeField()">
+                            <option value="" disabled selected>Select your role</option>
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <!-- Admin Code -->
+                                  <div id="admin-code-field" style="display:none;">
+                        <label for="adminCode" class="block text-sm font-medium text-gray-700 mb-1 mt-2">Admin Code*</label>
+                        <div class="relative">
+                            <input 
+                                type="password" 
+                                id="adminCode" 
+                                name="adminCode" 
+                                class="input-field w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                                placeholder="Enter Admin Code">
+                            <button type="button" id="toggleAdminCode" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600" tabindex="-1" style="background:none; border:none;">
+                                <svg id="adminEyeIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn-signup w-full py-3 px-4 text-white font-semibold rounded-lg shadow-md">
+                Sign Up
+            </button>
+            <div class="text-center text-sm text-gray-600">
+                Already have an account? 
+                <a href="./login" class="link-signin text-indigo-600 hover:text-indigo-500 font-medium">
+                    Login
+                </a>
+            </div>
+        </form>    
+    </div>
+    
+   <div class="footer">
+        © 2025 UndoBharat. All rights reserved.
+    </div>
+
+    <script>
+
+        document.getElementById('restOfForm').style.display = 'none';
+        
+        document.getElementById('sendOtpBtn').onclick = async function() {
+            const email = document.getElementById('email').value;
+            if (!email) return alert('Please enter your email.');
+            const res = await fetch('/api/send-otp', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ email })
+            });
+            const data = await res.json();
+            if (data.success) {
+                alert('OTP sent to your email!');
+                document.getElementById('otpSection').style.display = 'block';
+            } else {
+                alert(data.message || 'Failed to send OTP.');
+            }
+        };
+        
+        document.getElementById('verifyOtpBtn').onclick = async function() {
+            const email = document.getElementById('email').value;
+            const otp = document.getElementById('otp').value;
+            const res = await fetch('/api/verify-otp', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ email, otp })
+            });
+            const data = await res.json();
+            if (data.success) {
+                alert('OTP verified! Continue registration.');
+                document.getElementById('restOfForm').style.display = 'block';
+                document.getElementById('otpSection').style.display = 'none';
+                document.getElementById('email').readOnly = true;
+                document.getElementById('sendOtpBtn').disabled = true;
+            } else {
+                alert(data.message || 'Invalid OTP.');
+            }
+        };
+        
+        function togglePassword() {
+            const password = document.getElementById('password');
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+        }
+        
+        function toggleAdminCodeField() {
+            var role = document.getElementById('role').value;
+            var adminCodeField = document.getElementById('admin-code-field');
+            if (role === 'admin') {
+                adminCodeField.style.display = 'block';
+                document.getElementById('adminCode').required = true;
+            } else {
+                adminCodeField.style.display = 'none';
+                document.getElementById('adminCode').required = false;
+            }
+        }
+         
+  const showSuccess = "<%= typeof success !== 'undefined' ? success : '' %>";
+  if (showSuccess === "true") {
+    alert("Sign up successful! Please log in.");
+  }
+        document.getElementById('toggleAdminCode').onclick = function() {
+                        const adminCode = document.getElementById('adminCode');
+                        const icon = document.getElementById('adminEyeIcon');
+                        if (adminCode.type === "password") {
+                            adminCode.type = "text";
+                            icon.innerHTML = `<path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.81 21.81 0 0 1 5.06-7.94M1 1l22 22"/><circle cx="12" cy="12" r="3"></circle>`;
+                        } else {
+                            adminCode.type = "password";
+                            icon.innerHTML = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>`;
+                        }
+                    };
+    </script>
+</body>
+</html>

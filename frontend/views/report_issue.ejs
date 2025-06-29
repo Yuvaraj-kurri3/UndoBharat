@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UndoBharath - Issue Reporting Page</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqz2hem3m/image/upload/v1750665330/logo_ep4az4.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .form-input:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+        .file-input-label:hover {
+            background-color: #285877;
+        }
+        body.dark-mode {
+            background-color: #18181b !important;
+            color: #f3f4f6 !important;
+        }
+        /* Make dropdown options background white */
+        select, select option {
+            background-color: #fff !important;
+            color: #111 !important;
+        }
+        body.dark-mode .bg-white { background-color: #23232a !important; }
+        body.dark-mode .text-gray-800,
+        body.dark-mode .text-gray-700,
+        body.dark-mode .text-gray-600,
+        body.dark-mode .text-black {
+            color: #fff !important;
+        }
+        body.dark-mode .bg-gray-50 { background-color: #23232a !important; }
+        body.dark-mode .bg-gray-100 { background-color: #23232a !important; }
+        body.dark-mode .bg-blue-600 { background-color: #1e293b !important; }
+        body.dark-mode .shadow { box-shadow: 0 2px 8px rgba(0,0,0,0.7) !important; }
+        body.dark-mode .border { border-color: #333 !important; }
+        body.dark-mode .bg-green-100 { background-color: #14532d !important; color: #bbf7d0 !important; }
+        body.dark-mode .bg-red-100 { background-color: #7f1d1d !important; color: #fecaca !important; }
+        body.dark-mode .bg-yellow-100 { background-color: #78350f !important; color: #fde68a !important; }
+        body.dark-mode .text-blue-600 { color: #60a5fa !important; }
+        body.dark-mode .text-green-700 { color: #bbf7d0 !important; }
+        body.dark-mode .text-red-800 { color: #fecaca !important; }
+        body.dark-mode .text-green-800 { color: #bbf7d0 !important; }
+        body.dark-mode .text-yellow-800 { color: #fde68a !important; }
+        body.dark-mode .text-gray-500 { color: #d1d5db !important; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Header Section -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <img src="https://res.cloudinary.com/dqz2hem3m/image/upload/v1750665330/logo_ep4az4.png" alt="UndoBharath Logo" class="h-10 w-10">   
+                <h1 class="text-xl font-bold text-gray-800">UndoBharat</h1>
+            </div>
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="/" class="text-gray-600 hover:text-blue-600 transition">Home</a>
+                <a href="/about" class="text-gray-600 hover:text-blue-600 transition">About</a>
+                <a href="/" class="text-gray-600 hover:text-blue-600 transition">Contact</a>
+                <div class="relative">
+                    <button id="desktopProfileBtn" class="flex items-center space-x-1 focus:outline-none">
+                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <span class="text-gray-600">User</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <div id="desktopProfileDropdown" class="absolute right-0 mt-2 w-48 bg-white dark:bg-[#23232a] rounded-md shadow-lg py-1 z-20 hidden">
+                        <a href="/my-reports" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-[#374151]">My Profile</a>
+                        <a href="/my-reports" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-[#374151]">My Reports</a>
+                         <a href="#" id="toggleDarkModeDesktop" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-[#374151]">Dark Mode</a>
+                        <a href="/logout" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-[#374151]">Logout</a>
+                    </div>
+                </div>
+            </nav>
+            <div class="md:hidden flex items-center space-x-4">
+                <button id="mobileMenuBtn" class="text-gray-600 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+                <!-- Mobile profile menu button -->
+                <button id="mobileProfileBtn" class="text-gray-600 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+    <!-- Mobile navigation dropdown -->
+    <div id="mobileMenuDropdown" class="fixed top-16 left-4 right-4 bg-white rounded-md shadow-lg py-2 z-30 hidden">
+        <a href="/" class="block px-4 py-2 text-gray-700 hover:bg-blue-50">Home</a>
+        <a href="/about" class="block px-4 py-2 text-gray-700 hover:bg-blue-50">About</a>
+        <a href="/" class="block px-4 py-2 text-gray-700 hover:bg-blue-50">Contact</a>
+        <a href="/report-an-issue-now" class="block px-4 py-2 text-gray-700 hover:bg-blue-50">Report Issue</a>
+        <form action="/logout" method="post">
+            <button type="submit" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50">Logout</button>
+        </form>
+    </div>
+    <!-- Mobile profile dropdown -->
+    <div id="mobileProfileDropdown" class="fixed top-16 right-4 w-48 bg-white rounded-md shadow-lg py-1 z-30 hidden">
+        <a href="/my-reports" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">My Profile</a>
+        <a href="/my-reports" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">My Reports</a>
+         <a href="#" id="toggleDarkModeMobile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">Dark Mode</a>
+        <form action="/logout" method="post">
+            <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">Logout</button>
+        </form>
+    </div>
+
+    <!-- Slogan Section -->
+    <section class="bg-blue-600 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-2xl md:text-3xl font-semibold">Empowering Villages by Reporting Local Issues</h2>
+            <p class="mt-2 opacity-90">Your report can make a difference in your community</p>
+        </div>
+    </section>
+
+    <% if (typeof deletedMsg !== 'undefined' && deletedMsg) { %>
+      <div class="max-w-3xl mx-auto mt-6 mb-2 p-3 bg-red-100 text-red-800 rounded text-center font-medium">
+        <%= deletedMsg %>
+      </div>
+    <% } %>
+
+    <% if (typeof success !== 'undefined' && success) { %>
+      <div class="max-w-3xl mx-auto mt-6 mb-2 p-3 bg-green-100 text-green-800 rounded text-center font-medium">
+        Thank you for reporting the issue! Our team will review it shortly.
+      </div>
+    <% } %>
+
+    <!-- Main Content - Issue Reporting Form -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-blue-50 px-6 py-4 border-b border-blue-100 dark:bg-[#1e293b] dark:border-[#334155]">
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Report a Local Issue</h3>
+                <p class="text-gray-600 text-sm mt-1 dark:text-gray-300">Fill out the form below to report an issue in your area</p>
+            </div>
+            
+            <form class="p-6 space-y-6" action="/api/report-new-issue" method="post" enctype="multipart/form-data">
+                <!-- Personal Information Group -->
+                <div class="space-y-4">
+                    <h4 class="text-lg font-medium text-gray-700 border-b pb-2">Personal Information</h4>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                            <input type="text" id="name" name="name" placeholder="Enter your full name" required 
+ class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 form-input text-gray-900 bg-white dark:bg-[#23232a] dark:text-gray-100">                        </div>
+                        <div>
+                            <label for="mobile" class="block text-sm font-medium text-gray-700 mb-1">Mobile Number *</label>
+                            <input type="tel" id="mobile" name="mobile" placeholder="Enter your mobile number" required 
+ class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 form-input text-gray-900 bg-white dark:bg-[#23232a] dark:text-gray-100">                                
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Issue Details Group -->
+                <div class="space-y-4">
+                        <h4 class="text-lg font-medium text-gray-700 border-b pb-2">Issue Details</h4>
+                        <div class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 form-input text-gray-900 bg-white dark:bg-[#23232a] dark:text-gray-100">
+                            <label for="problemType" class="block text-sm font-medium text-white-700 mb-1">Problem Type *</label>
+                            <select id="problemType" name="problemType" required 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 form-input text-gray-900 bg-gray-100 dark:bg-[#23232a] dark:text-gray-100"> 
+                                <option value="" disabled selected class="text-gray-100">Select problem type</option>
+                                <option value="Road">Road</option>
+                                <option value="Water">Water</option>
+                                <option value="Electricity">Electricity</option>
+                                <option value="Garbage">Garbage</option>
+                                <option value="Others">Others</option>
+                            </select>
+                    </div>
+                    <div>
+                        <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Issue Title *</label>
+                        <input type="text" id="title" name="title" required 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 form-input text-gray-900 bg-white dark:bg-[#23232a] dark:text-gray-100" placeholder="Enter a brief title for the issue">                            
+                    </div>
+                    <div>
+                        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Problem Description *</label>
+                        <textarea id="description" name="description" rows="4" required 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 form-input text-gray-900 bg-white dark:bg-[#23232a] dark:text-gray-100 " placeholder="Describe the issue in detail.."></textarea>   
+                                 
+                    </div>
+                    <div>
+                        <label for="images" class="block text-sm font-medium text-gray-700 mb-1">Upload Images *</label>
+                        <div class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 form-input text-gray-900 bg-white dark:bg-[#23232a] dark:text-gray-100">
+                            <div class="space-y-1 text-center">
+                                <div class="flex flex-col md:flex-row gap-2 justify-center mb-2">
+                                    <button type="button" id="captureBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Capture Photo</button>
+                                    <button type="button" id="uploadBtn" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded">Upload from Files</button>
+                                </div>
+                                <input id="images" name="images" type="file" class="sr-only" multiple accept="image/*" required>
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="flex text-sm text-gray-600 text-center justify-center">
+                                    <span id="fileLabel">No file chosen</span>
+                                </div>
+                                <p class="text-xs text-gray-500">PNG, JPG up to 5MB</p>
+                            </div>
+                        </div>
+                    </div>
+                 
+                </div>
+
+                <!-- Location Details Group -->
+                <div class="space-y-4">
+                    <h4 class="text-lg font-medium text-gray-700 border-b pb-2">Location Details</h4>
+                    <div>
+                        <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Exact Address *</label>
+                        <input type="text" id="address" name="address" required 
+                             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 form-input text-gray-900 bg-white dark:bg-[#23232a] dark:text-gray-100" 
+                            placeholder="Street, Landmark, Village/Town">
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="pincode" class="block text-sm font-medium text-gray-700 mb-1">Pincode *</label>
+                            <input type="number" id="pincode" name="pincode" placeholder="enter location pincode" required 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 form-input text-gray-900 bg-white dark:bg-[#23232a] dark:text-gray-100">
+                        </div>
+                        <div>
+                            <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date of Issue</label>
+                            <input type="date" id="date" name="date" 
+                                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 form-input text-gray-900 bg-white dark:bg-[#23232a] dark:text-gray-100" 
+                                placeholder="Enter date of issue">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-4">
+                    <button type="submit" 
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        Report Issue
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+      <div class="bg-white rounded-lg shadow-lg p-8 max-w-sm w-full text-center">
+        <div class="flex justify-center mb-4">
+          <svg class="h-12 w-12 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold mb-2 text-green-700">Issue Submitted!</h2>
+        <p class="text-gray-700 mb-4">Thank you for reporting the issue. Our team will review it shortly.</p>
+        <button id="closeSuccessModal" class="mt-2 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">OK</button>
+      </div>
+    </div>
+    <!-- Footer Section -->
+    <footer class="bg-gray-100 py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-600">© 2025 UndoBharat. All Rights Reserved.</p>
+            <p class="text-gray-600 mt-1">Contact us: <a href="mailto:undobharat@gmail.com" class="text-blue-600 hover:underline">undobharat@gmail.com</a></p>
+        </div>
+    </footer>
+
+    <script>
+         
+        // Remove error state when user starts typing
+        document.querySelectorAll('input, textarea, select').forEach(element => {
+            element.addEventListener('input', function() {
+                this.classList.remove('border-red-500');
+            });
+        });
+
+        // Mobile profile dropdown toggle
+        const mobileProfileBtn = document.getElementById('mobileProfileBtn');
+        const mobileProfileDropdown = document.getElementById('mobileProfileDropdown');
+        if (mobileProfileBtn && mobileProfileDropdown) {
+            mobileProfileBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                mobileProfileDropdown.classList.toggle('hidden');
+            });
+            // Hide dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!mobileProfileDropdown.contains(e.target) && e.target !== mobileProfileBtn) {
+                    mobileProfileDropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        // Desktop profile dropdown toggle
+        const desktopProfileBtn = document.getElementById('desktopProfileBtn');
+        const desktopProfileDropdown = document.getElementById('desktopProfileDropdown');
+        if (desktopProfileBtn && desktopProfileDropdown) {
+            desktopProfileBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                desktopProfileDropdown.classList.toggle('hidden');
+            });
+            // Hide dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!desktopProfileDropdown.contains(e.target) && e.target !== desktopProfileBtn) {
+                    desktopProfileDropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        // Mobile navigation menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenuDropdown = document.getElementById('mobileMenuDropdown');
+        if (mobileMenuBtn && mobileMenuDropdown) {
+            mobileMenuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                mobileMenuDropdown.classList.toggle('hidden');
+            });
+            // Hide dropdown when clicking outside or on a link
+            document.addEventListener('click', function(e) {
+                if (!mobileMenuDropdown.contains(e.target) && e.target !== mobileMenuBtn) {
+                    mobileMenuDropdown.classList.add('hidden');
+                }
+            });
+            mobileMenuDropdown.querySelectorAll('a,button').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenuDropdown.classList.add('hidden');
+                });
+            });
+        }
+
+        // Dark mode toggle logic
+        function toggleDarkMode(e) {
+            if (e) e.preventDefault();
+            document.body.classList.toggle('dark-mode');
+            // Change dropdown text based on mode
+            var darkModeDesktop = document.getElementById('toggleDarkModeDesktop');
+            var darkModeMobile = document.getElementById('toggleDarkModeMobile');
+            var isDark = document.body.classList.contains('dark-mode');
+            if (darkModeDesktop) darkModeDesktop.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+            if (darkModeMobile) darkModeMobile.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+            if(isDark) {
+            localStorage.setItem('theme', 'dark');
+            } else {
+            localStorage.setItem('theme', 'light');
+            }
+        }
+        // Set dropdown text on page load
+        (function() {
+            var darkModeDesktop = document.getElementById('toggleDarkModeDesktop');
+            var darkModeMobile = document.getElementById('toggleDarkModeMobile');
+            var isDark = localStorage.getItem('theme') === 'dark';
+            if (darkModeDesktop) darkModeDesktop.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+            if (darkModeMobile) darkModeMobile.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+        })();
+        // On page load, set dark mode if previously selected
+        if(localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+        // Attach to both desktop and mobile dropdowns
+        var darkModeDesktop = document.getElementById('toggleDarkModeDesktop');
+        var darkModeMobile = document.getElementById('toggleDarkModeMobile');
+        if (darkModeDesktop) darkModeDesktop.addEventListener('click', toggleDarkMode);
+        if (darkModeMobile) darkModeMobile.addEventListener('click', toggleDarkMode);
+        // Close success modal
+        document.getElementById('closeSuccessModal').addEventListener('click', function() {
+            document.getElementById('successModal').classList.add('hidden');
+        });
+        // Camera or file upload logic
+        const captureBtn = document.getElementById('captureBtn');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const imagesInput = document.getElementById('images');
+        const fileLabel = document.getElementById('fileLabel');
+
+        captureBtn.addEventListener('click', function() {
+            imagesInput.setAttribute('capture', 'environment');
+            imagesInput.removeAttribute('webkitdirectory');
+            imagesInput.click();
+        });
+        uploadBtn.addEventListener('click', function() {
+            imagesInput.removeAttribute('capture');
+            imagesInput.removeAttribute('webkitdirectory');
+            imagesInput.click();
+        });
+        imagesInput.addEventListener('change', function() {
+            if (imagesInput.files.length > 0) {
+                fileLabel.textContent = Array.from(imagesInput.files).map(f => f.name).join(', ');
+            } else {
+                fileLabel.textContent = 'No file chosen';
+            }
+        });
+    </script>
+</body>
+</html>

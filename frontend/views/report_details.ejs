@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Details | UndoBharat</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqz2hem3m/image/upload/v1750665330/logo_ep4az4.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f8fafc; }
+        .container { max-width: 700px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 32px 24px; }
+        h2 { color: #1e293b; font-size: 2rem; font-weight: 600; margin-bottom: 18px; }
+        .label { color: #64748b; font-weight: 500; }
+        .value { color: #1e293b; font-weight: 400; }
+        .section { margin-bottom: 24px; }
+        .img-box { margin-top: 12px; }
+        .img-box img { max-width: 100%; border-radius: 8px; border: 1px solid #e5e7eb; height: 220px; object-fit: cover; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Report Details</h2>
+        <div class="section">
+            <span class="label">Reporter Name:</span> <span class="value"><%= issue.name %></span><br>
+            <span class="label">Mobile:</span> <span class="value"><%= issue.mobile %></span>
+        </div>
+        <div class="section">
+            <span class="label">Title:</span> <span class="value"><%= issue.title %></span><br>
+            <span class="label">Category:</span> <span class="value"><%= issue.problemType %></span><br>
+            <span class="label">Date:</span> <span class="value"><%= new Date(issue.date).toLocaleDateString('en-GB').replace(/\//g, '-') %></span><br>
+            <span class="label">Status:</span> <span class="value"><%= issue.status || 'Not Resolved' %></span>
+        </div>
+        <div class="section">
+            <span class="label">Description:</span>
+            <div class="value" style="margin-top:8px; background:#f1f5f9; padding:12px; border-radius:8px;">
+                <%= issue.description %>
+            </div>
+        </div>
+        <div class="section">
+            <span class="label">Address:</span> <span class="value"><%= issue.address %></span><br>
+            <span class="label">Pincode:</span> <span class="value"><%= issue.pincode %></span><br>
+           
+        </div>
+        <div class="section img-box">
+            <span class="label">Uploaded Image:</span><br>
+            <% if (issue.images && issue.images.length > 0) { %>
+                <img src="<%= issue.images[0] %>" alt="Issue Image" >
+                <a href="<%= issue.images[0] %>" target="_blank" class="text-blue-600 hover:underline"><button class="mt-6 inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-blue-700 transition">Download Image</button></a>
+
+            <% } else { %>
+                <img src="https://via.placeholder.com/600x300?text=No+Image" alt="No Image" >
+            <% } %>
+        </div>
+        <a href="/api/admin" class="mt-6 inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Back to Admin Dashboard</a>
+    </div>
+    <footer class="bg-gray-100 py-6 mt-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-600">© 2025 UndoBharat. All Rights Reserved.</p>
+            <p class="text-gray-600 mt-1">Contact us: <a href="mailto:undobharat@gmail.com" class="text-blue-600 hover:underline">undobharat@gmail.com</a></p>
+        </div>
+    </footer>
+</body>
+</html>

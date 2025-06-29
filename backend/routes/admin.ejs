@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UndoBharath Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <main class="p-4">
+    <h1 class="text-2xl font-bold mb-4">Reported Issues</h1>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white shadow rounded">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="p-2 text-left">S.No</th>
+            <th class="p-2 text-left">Reporter</th>
+            <th class="p-2 text-left">Title</th>
+            <th class="p-2 text-left">Category</th>
+            <th class="p-2 text-left">Submitted</th>
+            <th class="p-2 text-left">Status</th>
+            <th class="p-2 text-left">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <% if (issues && issues.length > 0) { %>
+            <% issues.forEach((issue, index) => { %>
+              <tr>
+                <td class="p-2"><%= index + 1 %></td>
+                <td class="p-2"><%= issue.name %></td>
+                <td class="p-2"><%= issue.title %></td>
+                <td class="p-2"><%= issue.problemType %></td>
+                <td class="p-2"><%= new Date(issue.createdAt).toLocaleDateString() %></td>
+                <td class="p-2">
+                  <span class="px-2 py-1 rounded text-xs <%= issue.status === 'Resolved' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %>">
+                    <%= issue.status || 'Not Resolved' %>
+                  </span>
+                </td>
+                <td class="p-2">
+                  <button class="text-blue-600 underline view-btn" data-issue='<%- JSON.stringify(issue).replace(/'/g, "&apos;") %>'>View</button>
+                </td>
+              </tr>
+            <% }) %>
+          <% } else { %>
+            <tr><td colspan="7" class="text-center p-4">No issues found</td></tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <div id="issueModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white p-6 rounded max-w-xl w-full">
+      <h2 class="text-xl font-semibold mb-4">Issue Details</h2>
+      <p><strong>Name:</strong> <span id="modal-name"></span></p>
+      <p><strong>Mobile:</strong> <span id="modal-mobile"></span></p>
+      <p><strong>Title:</strong> <span id="modal-title"></span></p>
+      <p><strong>Category:</strong> <span id="modal-category"></span></p>
+      <p><strong>Date:</strong> <span id="modal-date"></span></p>
+      <p><strong>Status:</strong> <span id="modal-status" class="inline-block px-2 py-1 rounded text-xs"></span></p>
+      <p><strong>Description:</strong> <span id="modal-description"></span></p>
+      <p><strong>Address:</strong> <span id="modal-address"></span></p>
+      <p><strong>Pincode:</strong> <span id="modal-pincode"></span></p>
+      <p><strong>Landmark:</strong> <span id="modal-landmark"></span></p>
+      <img id="modal-image" class="mt-4 max-w-full" src="" alt="Issue Image" />
+      <button onclick="closeModal()" class="mt-4 bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">Close</button>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.view-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const issue = JSON.parse(button.getAttribute('data-issue'));
+        document.getElementById('modal-name').textContent = issue.name || '';
+        document.getElementById('modal-mobile').textContent = issue.mobile || '';
+        document.getElementById('modal-title').textContent = issue.title || '';
+        document.getElementById('modal-category').textContent = issue.problemType || '';
+        document.getElementById('modal-date').textContent = new Date(issue.createdAt).toLocaleDateString();
+        document.getElementById('modal-status').textContent = issue.status || 'Not Resolved';
+        document.getElementById('modal-status').className = 'inline-block px-2 py-1 rounded text-xs ' +
+          (issue.status === 'Resolved' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700');
+        document.getElementById('modal-description').textContent = issue.description || '';
+        document.getElementById('modal-address').textContent = issue.address || '';
+        document.getElementById('modal-pincode').textContent = issue.pincode || '';
+        document.getElementById('modal-landmark').textContent = issue.nearby || '';
+        document.getElementById('modal-image').src = (issue.images && issue.images.length > 0) ? issue.images[0] : 'https://via.placeholder.com/600x300?text=No+Image';
+        document.getElementById('issueModal').classList.remove('hidden');
+        document.getElementById('issueModal').classList.add('flex');
+      });
+    });
+
+    function closeModal() {
+      const modal = document.getElementById('issueModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    document.getElementById('issueModal').addEventListener('click', function (e) {
+      if (e.target === this) closeModal();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How UndoBharat Works</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqz2hem3m/image/upload/v1750665330/logo_ep4az4.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .dark-mode-transition {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .step-card {
+            transition: all 0.3s ease;
+            transform: translateY(10px);
+            opacity: 0;
+        }
+        .step-card.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .arrow-down {
+            width: 0; 
+            height: 0; 
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 15px solid #3b82f6;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .arrow-down.show {
+            opacity: 1;
+        }
+        .flow-container {
+            transition: height 0.4s ease;
+            overflow: hidden;
+        }
+        .hamburger-line {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .hamburger-active .hamburger-line:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger-active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger-active .hamburger-line:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+        /* Custom dark mode overrides */
+        html.dark body { background-color: #18181b !important; color: #f3f4f6 !important; }
+        html.dark .bg-white { background-color: #23232a !important; }
+        html.dark .bg-blue-50 { background-color: #1e293b !important; }
+        html.dark .bg-gray-50, html.dark .bg-gray-100 { background-color: #23232a !important; }
+        html.dark .text-gray-800, html.dark .text-gray-700, html.dark .text-gray-600, html.dark .text-black { color: #fff !important; }
+        html.dark .text-blue-600 { color: #60a5fa !important; }
+        html.dark .text-green-600 { color: #4ade80 !important; }
+        html.dark .text-green-800 { color: #bbf7d0 !important; }
+        html.dark .text-red-800 { color: #fecaca !important; }
+        html.dark .text-gray-500 { color: #d1d5db !important; }
+        html.dark .shadow { box-shadow: 0 2px 8px rgba(0,0,0,0.7) !important; }
+        html.dark .border { border-color: #333 !important; }
+        html.dark .bg-green-100 { background-color: #22c55e !important; color: #fff !important; }
+        html.dark .bg-blue-100 { background-color: #2563eb !important; color: #fff !important; }
+        html.dark .bg-green-600 { background-color: #22c55e !important; color: #fff !important; }
+        html.dark .bg-blue-600 { background-color: #2563eb !important; color: #fff !important; }
+        html.dark .step-card { border-color: #333 !important; }
+        html.dark .arrow-down { border-top: 15px solid #2563eb !important; }
+        /* High contrast for user/admin labels in dark mode */
+        html.dark .user-label { color: #38bdf8 !important; background: #0e7490 !important; padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+        html.dark .admin-label { color: #facc15 !important; background: #854d0e !important; padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+        <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white shadow-md dark:bg-gray-800 dark:text-white dark-mode-transition">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo and Site Name -->
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                    <img src="https://res.cloudinary.com/dqz2hem3m/image/upload/v1750665330/logo_ep4az4.png" alt="logo">
+                </div>
+                <h1 class="text-xl font-bold">UndoBharat</h1>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="/" class="hover:text-blue-500 dark:hover:text-blue-400 transition">Home</a>
+                <a href="/logout" class="hover:text-blue-500 dark:hover:text-blue-400 transition">Logout</a>
+                
+                <!-- Dark Mode Toggle -->
+                <div class="flex items-center" >
+                    <span class="mr-2 text-sm"><i class="fas fa-sun"></i></span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="darkModeToggle" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                        <span class="ml-2 text-sm"><i class="fas fa-moon"></i></span>
+                    </label>
+                </div>
+            </nav>
+
+            <!-- Mobile Hamburger Menu -->
+            <button id="hamburger" class="md:hidden focus:outline-none">
+                <div class="w-6 space-y-1">
+                    <div class="hamburger-line h-0.5 w-6 bg-gray-800 dark:bg-white"></div>
+                    <div class="hamburger-line h-0.5 w-6 bg-gray-800 dark:bg-white"></div>
+                    <div class="hamburger-line h-0.5 w-6 bg-gray-800 dark:bg-white"></div>
+                </div>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation (Hidden by default) -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white dark:bg-gray-800 shadow-lg dark-mode-transition">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="/" class="py-2 hover:text-blue-500 dark:hover:text-blue-400 transition">Home</a>
+                <a href="/logout" class="py-2 hover:text-blue-500 dark:hover:text-blue-400 transition">Logout</a>
+                <div class="flex items-center justify-between py-2">
+                    <span>Dark Mode</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="mobileDarkModeToggle" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container mx-auto px-4 py-12 min-h-[60vh] flex flex-col justify-start">
+        <!-- Main Heading -->
+        <h1 class="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-12">
+            How <span class="text-blue-600">UndoBharat</span> Works
+        </h1>
+        
+        <!-- Toggle Buttons -->
+        <div class="flex justify-center mb-16">
+            <div class="inline-flex rounded-md shadow-sm" role="group">
+                <button id="userBtn" type="button" class="px-6 py-3 text-sm font-medium rounded-l-lg bg-blue-600 text-white hover:bg-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-500 focus:bg-blue-700 transition-all duration-300">
+                    <i class="fas fa-user mr-2"></i> User
+                </button>
+                <button id="adminBtn" type="button" class="px-6 py-3 text-sm font-medium rounded-r-lg bg-gray-200 text-gray-700 hover:bg-gray-300 focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-300 transition-all duration-300">
+                    <i class="fas fa-user-shield mr-2"></i> Admin
+                </button>
+            </div>
+        </div>
+        
+        <!-- User Flow -->
+        <div id="userFlow" class="flow-container">
+            <div class="max-w-2xl mx-auto">
+                <!-- Step 1 -->
+                <div class="step-card mb-8 bg-white rounded-xl shadow-md p-6 relative show">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-blue-100 rounded-full p-3 mr-4">
+                            <i class="fas fa-user-plus text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Sign Up / Login</h3>
+                            <p class="text-gray-600">Create your account or login to access the platform and start reporting civic issues.</p>
+                        </div>
+                        <div class="absolute top-0 right-0 mt-4 mr-4 bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
+                            1
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="arrow-down show mb-4"></div>
+                
+                <!-- Step 2 -->
+                <div class="step-card mb-8 bg-white rounded-xl shadow-md p-6 relative show">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-blue-100 rounded-full p-3 mr-4">
+                            <i class="fas fa-flag text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Submit Report</h3>
+                            <p class="text-gray-600">Document and submit details about the civic issue you've encountered with photos and location.</p>
+                        </div>
+                        <div class="absolute top-0 right-0 mt-4 mr-4 bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
+                            2
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="arrow-down show mb-4"></div>
+                
+                <!-- Step 3 -->
+                <div class="step-card mb-8 bg-white rounded-xl shadow-md p-6 relative show">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-blue-100 rounded-full p-3 mr-4">
+                            <i class="fas fa-user-circle text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Click Profile Icon → "My Reports"</h3>
+                            <p class="text-gray-600">Access all your submitted reports in one place through your profile dashboard.</p>
+                        </div>
+                        <div class="absolute top-0 right-0 mt-4 mr-4 bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
+                            3
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="arrow-down show mb-4"></div>
+                
+                <!-- Step 4 -->
+                <div class="step-card mb-8 bg-white rounded-xl shadow-md p-6 relative show">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-blue-100 rounded-full p-3 mr-4">
+                            <i class="fas fa-sync-alt text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Track Your Report Status</h3>
+                            <p class="text-gray-600">Monitor the progress of your reports with real-time updates on their resolution status.</p>
+                        </div>
+                        <div class="absolute top-0 right-0 mt-4 mr-4 bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
+                            4
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="arrow-down show mb-4"></div>
+                
+                <!-- Step 5 -->
+                <div class="step-card mb-8 bg-white rounded-xl shadow-md p-6 relative show">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-blue-100 rounded-full p-3 mr-4">
+                            <i class="fas fa-sign-out-alt text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Logout</h3>
+                            <p class="text-gray-600">Securely logout from your account when you're done.</p>
+                        </div>
+                        <div class="absolute top-0 right-0 mt-4 mr-4 bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
+                            5
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Admin Flow (Hidden by default) -->
+        <div id="adminFlow" class="flow-container hidden" style="height: 0;">
+            <div class="max-w-2xl mx-auto">
+                <!-- Step 1 -->
+                <div class="step-card mb-8 bg-white rounded-xl shadow-md p-6 relative">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-green-100 rounded-full p-3 mr-4">
+                            <i class="fas fa-key text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Login with Admin ID</h3>
+                            <p class="text-gray-600">Access the admin dashboard using your authorized credentials.</p>
+                        </div>
+                        <div class="absolute top-0 right-0 mt-4 mr-4 bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
+                            1
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="arrow-down mb-4"></div>
+                
+                <!-- Step 2 -->
+                <div class="step-card mb-8 bg-white rounded-xl shadow-md p-6 relative">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-green-100 rounded-full p-3 mr-4">
+                            <i class="fas fa-tasks text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Track User Reports</h3>
+                            <p class="text-gray-600">Monitor all submitted reports from users in your assigned jurisdiction.</p>
+                        </div>
+                        <div class="absolute top-0 right-0 mt-4 mr-4 bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
+                            2
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="arrow-down mb-4"></div>
+                
+                <!-- Step 3 -->
+                <div class="step-card mb-8 bg-white rounded-xl shadow-md p-6 relative">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-green-100 rounded-full p-3 mr-4">
+                            <i class="fas fa-edit text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Update User Report Status</h3>
+                            <p class="text-gray-600">Change the status of reports as they progress through the resolution process.</p>
+                        </div>
+                        <div class="absolute top-0 right-0 mt-4 mr-4 bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
+                            3
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="arrow-down mb-4"></div>
+                
+                <!-- Step 4 -->
+                <div class="step-card mb-8 bg-white rounded-xl shadow-md p-6 relative">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-green-100 rounded-full p-3 mr-4">
+                            <i class="fas fa-info-circle text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">View Issue Details</h3>
+                            <p class="text-gray-600">Access comprehensive information about each reported issue for better resolution.</p>
+                        </div>
+                        <div class="absolute top-0 right-0 mt-4 mr-4 bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
+                            4
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="arrow-down mb-4"></div>
+                
+                <!-- Step 5 -->
+                <div class="step-card mb-8 bg-white rounded-xl shadow-md p-6 relative">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 bg-green-100 rounded-full p-3 mr-4">
+                            <i class="fas fa-sign-out-alt text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Logout</h3>
+                            <p class="text-gray-600">Securely logout from the admin dashboard when you're done.</p>
+                        </div>
+                        <div class="absolute top-0 right-0 mt-4 mr-4 bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
+                            5
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+       <!-- Footer -->
+    <footer class="bg-white dark:bg-gray-800 py-6 shadow-inner dark-mode-transition w-full mt-12 ">
+        <div class="container mx-auto px-4 text-center text-gray-600 dark:text-gray-300 flex flex-col md:flex-row items-center justify-between gap-2">
+            <div class="flex items-center justify-center w-full md:w-auto mb-2 md:mb-0">
+                <img src="https://res.cloudinary.com/dqz2hem3m/image/upload/v1750665330/logo_ep4az4.png" alt="UndoBharat Logo" class="h-8 w-8 mr-2 inline-block align-middle">
+                <span class="font-semibold text-base align-middle">UndoBharat</span>
+            </div>
+            <p class="w-full md:w-auto text-center md:text-right text-sm">© UndoBharat 2025. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userBtn = document.getElementById('userBtn');
+            const adminBtn = document.getElementById('adminBtn');
+            const userFlow = document.getElementById('userFlow');
+            const adminFlow = document.getElementById('adminFlow');
+            
+            // Initialize with user flow visible
+            let currentFlow = 'user';
+            
+            // Function to switch flows
+            function switchFlow(flow) {
+                if (flow === currentFlow) return;
+                
+                // Animate out current flow
+                if (currentFlow === 'user') {
+                    hideFlow(userFlow);
+                } else {
+                    hideFlow(adminFlow);
+                }
+                
+                // Update button styles
+                if (flow === 'user') {
+                    userBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                    userBtn.classList.add('bg-blue-600', 'text-white');
+                    adminBtn.classList.remove('bg-blue-600', 'text-white');
+                    adminBtn.classList.add('bg-gray-200', 'text-gray-700');
+                } else {
+                    adminBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                    adminBtn.classList.add('bg-blue-600', 'text-white');
+                    userBtn.classList.remove('bg-blue-600', 'text-white');
+                    userBtn.classList.add('bg-gray-200', 'text-gray-700');
+                }
+                
+                // Animate in new flow
+                setTimeout(() => {
+                    if (flow === 'user') {
+                        showFlow(userFlow, 'blue');
+                    } else {
+                        showFlow(adminFlow, 'green');
+                    }
+                    currentFlow = flow;
+                }, 400);
+            }
+            
+            function hideFlow(flowContainer) {
+                const steps = flowContainer.querySelectorAll('.step-card');
+                const arrows = flowContainer.querySelectorAll('.arrow-down');
+                
+                // Hide all steps
+                steps.forEach(step => {
+                    step.classList.remove('show');
+                });
+                
+                // Hide all arrows
+                arrows.forEach(arrow => {
+                    arrow.classList.remove('show');
+                });
+                
+                // Collapse container
+                setTimeout(() => {
+                    flowContainer.style.height = '0';
+                    flowContainer.classList.add('hidden');
+                }, 300);
+            }
+            
+            function showFlow(flowContainer, color) {
+                flowContainer.classList.remove('hidden');
+                
+                // Calculate height needed
+                const contentHeight = flowContainer.querySelector('div').scrollHeight;
+                flowContainer.style.height = contentHeight + 'px';
+                
+                // Show steps with staggered delay
+                const steps = flowContainer.querySelectorAll('.step-card');
+                const arrows = flowContainer.querySelectorAll('.arrow-down');
+                
+                steps.forEach((step, index) => {
+                    setTimeout(() => {
+                        step.classList.add('show');
+                        if (color === 'green') {
+                            step.querySelector('.flex-shrink-0').classList.replace('bg-blue-100', 'bg-green-100');
+                            step.querySelector('.flex-shrink-0 i').classList.replace('text-blue-600', 'text-green-600');
+                            step.querySelector('.absolute').classList.replace('bg-blue-600', 'bg-green-600');
+                        } else {
+                            step.querySelector('.flex-shrink-0').classList.replace('bg-green-100', 'bg-blue-100');
+                            step.querySelector('.flex-shrink-0 i').classList.replace('text-green-600', 'text-blue-600');
+                            step.querySelector('.absolute').classList.replace('bg-green-600', 'bg-blue-600');
+                        }
+                    }, index * 150);
+                });
+                
+                arrows.forEach((arrow, index) => {
+                    setTimeout(() => {
+                        arrow.classList.add('show');
+                        if (color === 'green') {
+                            arrow.style.borderTopColor = '#10b981';
+                        } else {
+                            arrow.style.borderTopColor = '#3b82f6';
+                        }
+                    }, (index * 150) + 75);
+                });
+            }
+            
+            // Event listeners
+            userBtn.addEventListener('click', () => switchFlow('user'));
+            adminBtn.addEventListener('click', () => switchFlow('admin'));
+            
+            // Initialize with user flow
+            showFlow(userFlow, 'blue');
+        });
+
+         const darkModeToggle = document.getElementById('darkModeToggle');
+        const mobileDarkModeToggle = document.getElementById('mobileDarkModeToggle');
+        const html = document.documentElement;
+
+        // Check for saved user preference or use system preference
+        if (localStorage.getItem('darkMode') === 'true' || 
+            (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+            darkModeToggle.checked = true;
+            mobileDarkModeToggle.checked = true;
+        }
+
+        // Toggle dark mode
+        function toggleDarkMode() {
+            html.classList.toggle('dark');
+            localStorage.setItem('darkMode', html.classList.contains('dark'));
+        }
+
+        darkModeToggle.addEventListener('change', toggleDarkMode);
+        mobileDarkModeToggle.addEventListener('change', toggleDarkMode);
+
+        // Mobile Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('hamburger-active');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+    </script>
+</body>
+</html>

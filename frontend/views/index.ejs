@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UndoBharat – A Step Towards a Better Nation</title>
+   <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1587474260584-136574528ed5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .problem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-link:hover {
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <% if (typeof notAdmin !== 'undefined' && notAdmin) { %>
+      <div class="max-w-2xl mx-auto mt-6 mb-2 p-3 bg-red-100 text-red-800 rounded text-center font-medium">
+        You Are Not Admin
+      </div>
+    <% } %>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+                   <img src="https://res.cloudinary.com/dqz2hem3m/image/upload/v1750665330/logo_ep4az4.png" alt="logo" onclick="window.location.href='/'" >
+                </div>
+                <a href="/" class="text-xl font-bold text-gray-800">UndoBharat</a>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="/" class="nav-link text-gray-700 hover:text-blue-500 font-medium">Home</a>
+                <a href="./about" class="nav-link text-gray-700 hover:text-blue-500 font-medium">About</a>
+                <a href="/report-an-issue-now" class="nav-link text-gray-700 hover:text-blue-500 font-medium">Report Issue</a>
+                <a href="#conc" class="nav-link text-gray-700 hover:text-blue-500 font-medium">Contact</a>
+                <a href="/login" class="nav-link text-gray-700 hover:text-blue-500 font-medium">Login</a>
+                <a href="/admin" class="nav-link text-gray-700 hover:text-blue-500 font-medium">Admin</a>
+            </div>
+            
+            <a href="/report-an-issue-now" class="hidden md:block bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md font-medium transition duration-300">Report Now</a>
+            
+            <!-- Mobile menu button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white py-2 px-4 shadow-lg">
+            <a href="/" class="block py-2 text-gray-700 hover:text-blue-500">Home</a>
+            <a href="/about" class="block py-2 text-gray-700 hover:text-blue-500">About</a>
+            <a href="#report" class="block py-2 text-gray-700 hover:text-blue-500">Report Issue</a>
+            <a href="#conc" class="block py-2 text-gray-700 hover:text-blue-500">Contact</a>
+            <a href="/login" class="block py-2 text-gray-700 hover:text-blue-500">Login</a>
+            <a href="/admin" class="block py-2 text-gray-700 hover:text-blue-500">Admin</a>
+            <a href="#report" class="block my-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md font-medium text-center transition duration-300">Report Now</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero text-white py-20 md:py-32 flex items-center">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">UndoBharat – A Step Towards a Better Nation</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Empowering citizens to report and resolve local village problems.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#report" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-md font-bold text-lg transition duration-300">Report an Issue</a>
+                <a href="#how-it-works" class="bg-white hover:bg-gray-100 text-blue-600 px-8 py-3 rounded-md font-bold text-lg transition duration-300">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Our Mission to Transform Rural India</h2>
+                
+                <div class="space-y-8">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-1/6 flex justify-center">
+                            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-exclamation-triangle text-green-600 text-2xl"></i>
+                            </div>
+                        </div>
+                        <div class="md:w-5/6">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">The Need to Solve Rural Issues</h3>
+                            <p class="text-gray-600">Millions of Indians in rural areas face daily challenges with basic infrastructure like roads, water supply, electricity, and waste management. These problems often go unreported or unresolved due to lack of proper channels. UndoBharat bridges this gap by providing a platform where every citizen can raise their voice and demand action.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-1/6 flex justify-center">
+                            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-mobile-alt text-blue-600 text-2xl"></i>
+                            </div>
+                        </div>
+                        <div class="md:w-5/6">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">How UndoBharat Works</h3>
+                            <p class="text-gray-600">Our platform makes it simple to report issues. Just take a photo of the problem, share your location, and describe the issue in a few words. Our system automatically routes your complaint to the appropriate authorities and tracks progress until resolution. You'll receive updates at every step, ensuring transparency and accountability.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-1/6 flex justify-center">
+                            <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-users text-orange-600 text-2xl"></i>
+                            </div>
+                        </div>
+                        <div class="md:w-5/6">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Join the Movement</h3>
+                            <p class="text-gray-600">Change begins with awareness. We call upon the youth and responsible citizens across India to use UndoBharat as a tool for positive change. By reporting problems in your village, you're not just helping your community - you're contributing to the development of our nation. Together, we can build a better Bharat.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Types Section -->
+    <section class="py-16 bg-gray-50" id="how-it-works">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Common Problems We Address</h2>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                <!-- Road Problems -->
+                <div class="problem-card bg-white p-6 rounded-lg shadow-md transition duration-300">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-road text-red-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-center mb-2 text-gray-800">Road Issues</h3>
+                    <p class="text-gray-600 text-center">Report potholes, damaged roads, or lack of proper roads in your area.</p>
+                </div>
+                
+                <!-- Water Problems -->
+                <div class="problem-card bg-white p-6 rounded-lg shadow-md transition duration-300">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-tint text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-center mb-2 text-gray-800">Water Supply</h3>
+                    <p class="text-gray-600 text-center">Report water shortages, contaminated water, or broken pipelines.</p>
+                </div>
+                
+                <!-- Electricity Problems -->
+                <div class="problem-card bg-white p-6 rounded-lg shadow-md transition duration-300">
+                    <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-bolt text-yellow-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-center mb-2 text-gray-800">Electricity</h3>
+                    <p class="text-gray-600 text-center">Report power cuts, faulty transformers, or unsafe electrical wiring.</p>
+                </div>
+                
+                <!-- Waste Problems -->
+                <div class="problem-card bg-white p-6 rounded-lg shadow-md transition duration-300">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-trash text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-center mb-2 text-gray-800">Waste Management</h3>
+                    <p class="text-gray-600 text-center">Report garbage accumulation, lack of waste collection, or improper disposal.</p>
+                </div>
+                
+                <!-- Health Problems -->
+                <div class="problem-card bg-white p-6 rounded-lg shadow-md transition duration-300">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-hospital text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-center mb-2 text-gray-800">Health Services</h3>
+                    <p class="text-gray-600 text-center">Report lack of medical facilities, unclean hospitals, or unavailable medicines.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-blue-600 text-white" id="report">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6">Ready to Make a Difference?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Join Us with by Reporting an issue</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="/report-an-issue-now" class="bg-white hover:bg-gray-100 text-blue-600 px-8 py-3 rounded-md font-bold text-lg transition duration-300">Report an Issue Now</a>
+                <a href="/How-it-works" class="bg-transparent hover:bg-blue-700 border-2 border-white text-white px-8 py-3 rounded-md font-bold text-lg transition duration-300">How It Works</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="p-6">
+                    <div class="text-5xl font-bold text-blue-600 mb-2"><%= typeof issuesReported !== 'undefined' ? issuesReported : 0 %></div>
+                    <div class="text-xl font-medium text-gray-700">Issues Reported</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-5xl font-bold text-green-600 mb-2"><%= typeof issuesResolved !== 'undefined' ? issuesResolved : 0 %></div>
+                    <div class="text-xl font-medium text-gray-700">Issues Resolved</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-5xl font-bold text-orange-500 mb-2">0</div>
+                    <div class="text-xl font-medium text-gray-700">Villages Covered</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Maintenance Popup -->
+<div id="maintenance-popup" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full text-center">
+    <h2 class="text-2xl font-bold mb-2 text-red-600">🚧 Site Under Maintenance</h2>
+    <p class="text-gray-700 mb-4">We're currently making improvements to UndoBharat. Some features may not work as expected.</p>
+    <p class="text-sm text-gray-500 mb-4">Our team is working hard to complete everything as soon as possible. Thank you for your patience!</p>
+    <p>-Team UndoBharat</p>
+    <button id="close-popup" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Okay, Got it</button>
+  </div>
+</div>
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+                          <img src="https://res.cloudinary.com/dqz2hem3m/image/upload/v1750665330/logo_ep4az4.png" alt="logo">
+                        </div>
+                        <span class="text-xl font-bold">UndoBharat</span>
+                    </div>
+                    <p class="text-gray-300">Empowering citizens to build a better India by solving local problems together.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-300 hover:text-white transition duration-300">home</a></li>
+                        <li><a href="/about" class="text-gray-300 hover:text-white transition duration-300">About</a></li>
+                        <li><a href="#report" class="text-gray-300 hover:text-white transition duration-300">Report Issue</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-300">Success Stories</a></li>
+                    </ul>
+                </div>
+                
+                <div id="conc">
+                    <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-envelope text-gray-300"></i>
+                            <span class="text-gray-300">undobharat@gmail.com</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-phone text-gray-300"></i>
+                            <span class="text-gray-300">+91 93XXXXXX32 </span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-map-marker-alt text-gray-300"></i>
+                            <span class="text-gray-300">Anjanapally, Telangana</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+                    <div class="flex space-x-4">
+                        <!-- <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a> -->
+                        <!-- <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-400 transition duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a> -->
+                        <a href="https://www.instagram.com/undobharatofficial/" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-600 transition duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <!-- <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-red-600 transition duration-300">
+                            <i class="fab fa-youtube"></i>
+                        </a> -->
+                    </div>
+                </div>
+            </div>
+            
+     
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center space-y-2 md:space-y-0 md:space-x-0 mt-12 ml-0 md:ml-5">
+                    <p class="mb-0 fs-7 text-center md:text-left">Visitor Count: <%= typeof visitorCount !== 'undefined' ? visitorCount : 'N/A' %></p>
+                    <p class="mb-0 fs-7 text-center md:text-left">Designed & Developed By Yuvaraj Kurri</p>
+                    <p class="mb-0 fs-1 text-center md:text-left">&copy; 2025 UndoBharat. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+     const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  // Toggle mobile menu
+  mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+
+//   Handle all anchor links
+  document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+
+      // Close the mobile menu
+      if (!mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add('hidden');
+      }
+
+      // If it's an in-page anchor (like #about), scroll smoothly
+      if (href && href.startsWith('#') && href.length > 1) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+
+      // If it's just "#", prevent default (does nothing)
+      if (href === '#') {
+        e.preventDefault();
+      }
+
+      // NOTE: Do not prevent default for normal pages like about.html
+    });
+  });
+
+    document.getElementById("close-popup").addEventListener("click", function () {
+    document.getElementById("maintenance-popup").style.display = "none";
+  });
+</script>
+
+</body>
+</html>
