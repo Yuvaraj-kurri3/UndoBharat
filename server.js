@@ -161,7 +161,7 @@ const login = async (req, res) => {
       res.cookie('token', token, { httpOnly: true, maxAge: 3600000 }); // 1 hour
 
    
-    // ✅ Redirect based on role
+    // ✅ Redirect based on role 
     if (user.role === 'admin') {
       return res.redirect('/api/admin');
     } else {
