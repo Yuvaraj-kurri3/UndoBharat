@@ -32,7 +32,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: 'undoBharath_issues',
+    folder: 'undoBharat_issues',
     allowed_formats: ['jpg', 'jpeg', 'png'],
     transformation: [{ width: 800, height: 800, crop: 'limit' }]
   }
@@ -58,7 +58,7 @@ const store = new mongooseSession({
 });
 
 app.use(session({
-  secret: 'undobharath_secret_key', // change this to a strong secret
+  secret: 'undoBharat_secret_key', // change this to a strong secret
   resave: false,
   saveUninitialized: false,
   store: store, // Use MongoDB session store
@@ -389,7 +389,7 @@ app.post('/forgot-password', async (req, res) => {
   await transporter.sendMail({
     from: process.env.EMAIL_USER,
     to: email,
-    subject: 'UndoBharath Password Reset OTP',
+    subject: 'undoBharat Password Reset OTP',
     text: `Your OTP for password reset is: ${otp}`
   });
   res.render('forgot_password', { step: 'otp', msg: 'OTP sent to your email.', msgType: 'success' });
