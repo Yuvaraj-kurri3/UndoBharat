@@ -18,11 +18,15 @@ const nodemailer = require('nodemailer');
 const otps = {}; // In-memory store for OTPs
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const SibApiV3Sdk = require('sib-api-v3-sdk');
+const SibApiV3Sdk  = require('sib-api-v3-sdk');
 const app = express();
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 app.use(cookieParser());
+
+const client = SibApiV3Sdk.ApiClient.instance;
+client.authentications['api-key'].apiKey = process.env.BREVO_API_KEY;
+const tranEmailApi = new SibApiV3Sdk.TransactionalEmailsApi();
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -377,28 +381,36 @@ app.post('/forgot-password', async (req, res) => {
   req.session.resetEmail = email;
   req.session.otp = otp;
   // Send OTP mail
-  const transporter = nodemailer.createTransport({
-    // service: 'gmail',
-    host: "smtp-relay.brevo.com", // Brevo SMTP host
-    port: 465, // or 587 for secure
-    secure: true, // true for 465, false for 587
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS
-      // user: process.env.EMAIL_USER,
-      // pass: process.env.EMAIL_PASS
-    },
-      tls: {
-    rejectUnauthorized: false
-  }
-  });
+  // const transporter = nodemailer.createTransport({
+  //   // service: 'gmail',
+  //   host: "smtp-relay.brevo.com", // Brevo SMTP host
+  //   port: 465, // or 587 for secure
+  //   secure: true, // true for 465, false for 587
+  //   auth: {
+  //     user: process.env.SMTP_USER,
+  //     pass: process.env.SMTP_PASS
+  //     // user: process.env.EMAIL_USER,
+  //     // pass: process.env.EMAIL_PASS
+  //   },
+  //     tls: {
+  //   rejectUnauthorized: false
+  // }
+  // });
 
-  await transporter.sendMail({
-    from: process.env.EMAIL_USER,
-    to: email,
-    subject: 'undoBharat Password Reset OTP',
-    text: `Your OTP for password reset is: ${otp}`
-  });
+     // Send email via Brevo API
+    await tranEmailApi.sendTransacEmail({
+      sender: { email: process.env.EMAIL_USER, name: "undoBharat" },
+      to: [{ email }],
+      subject: "undoBharat Password Reset OTP",
+      textContent: `Your OTP for password reset is: ${otp}`,
+    });
+
+  // await transporter.sendMail({
+  //   from: process.env.EMAIL_USER,
+  //   to: email,
+  //   subject: 'undoBharat Password Reset OTP',
+  //   text: `Your OTP for password reset is: ${otp}`
+  // });
   res.render('forgot_password', { step: 'otp', msg: 'OTP sent to your email.', msgType: 'success' });
 });
 
