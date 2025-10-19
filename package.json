@@ -27,6 +27,7 @@
     "multer": "^2.0.1",
     "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^7.0.3",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "sib-api-v3-sdk": "^8.5.0"
   }
 }

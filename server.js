@@ -18,6 +18,7 @@ const nodemailer = require('nodemailer');
 const otps = {}; // In-memory store for OTPs
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const SibApiV3Sdk = require('sib-api-v3-sdk');
 const app = express();
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
@@ -377,17 +378,21 @@ app.post('/forgot-password', async (req, res) => {
   req.session.otp = otp;
   // Send OTP mail
   const transporter = nodemailer.createTransport({
+    // service: 'gmail',
     host: "smtp-relay.brevo.com", // Brevo SMTP host
-    port: 587, // or 465 for secure
-    secure: false, // true for 465, false for 587
+    port: 465, // or 587 for secure
+    secure: true, // true for 465, false for 587
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS
+      // user: process.env.EMAIL_USER,
+      // pass: process.env.EMAIL_PASS
     },
       tls: {
     rejectUnauthorized: false
   }
   });
+
   await transporter.sendMail({
     from: process.env.EMAIL_USER,
     to: email,
@@ -415,7 +420,6 @@ app.post('/reset-password', async (req, res) => {
   if (!email) {
     return res.render('forgot_password', { step: 'email', msg: 'Session expired. Try again.', msgType: 'error' });
   }
-
   await Signin.findOneAndUpdate({ email }, { password: hashedPassword });
   req.session.otp = null;
   req.session.resetEmail = null;
