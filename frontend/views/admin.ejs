@@ -142,7 +142,7 @@
                             <div class="text-sm font-medium text-gray-800">Admin User</div>
                             <div class="text-xs text-gray-500">admin@undobharat.org</div>
                             <div class="border-t mt-2 pt-2">
-                                <a href="#" class="block text-sm text-gray-600 hover:text-blue-600 py-1" onclick="toggleDarkMode(event)">Dark Mode</a>
+                                <button  class="block text-sm text-gray-600 hover:text-blue-600 py-1" onclick="toggleDarkMode(event)" id="mode-type">Dark Mode</button>
                                 <a href="/logout" class="block text-sm text-red-500 hover:text-red-700 py-1">Logout</a>
                             </div>
                         </div>
@@ -287,6 +287,7 @@
     function toggleDarkMode(e) {
       e.preventDefault();
       document.body.classList.toggle('dark-mode');
+      document.getElementById('mode-type').textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
       // Optionally, persist mode in localStorage
       if(document.body.classList.contains('dark-mode')) {
         localStorage.setItem('theme', 'dark');
